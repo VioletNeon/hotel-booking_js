@@ -1,18 +1,9 @@
-const getAnyNumber = function(from, to) {
-  let difference = Math.abs(to - from);
+const getFractionalNumber = function(from, to, pointer = 0) {
+  [from, to, pointer] = [Math.abs(from), Math.abs(to), Math.abs(pointer)];
   if (from >= to) {
-    return Math.floor(Math.random() * (difference + 1) + to);
+    [from, to] = [to, from];
   }
-  return Math.floor(Math.random() * (difference + 1) + from);
+  return +(Math.random() * Math.abs(to - from) + from).toFixed(pointer);
 }
 
-const getFractionalNumber = function(from, to, pointer) {
-  let difference = Math.abs(to - from);
-  if (from >= to) {
-    return +(+Math.random().toFixed(pointer) * (difference + Math.pow(10, -pointer)) + to).toFixed(pointer);
-  }
-  return +(+Math.random().toFixed(pointer) * (difference + Math.pow(10, -pointer)) + from).toFixed(pointer);
-}
-
-alert(getAnyNumber(2, 7));
-alert(getFractionalNumber(2.1, 2.7, 2));
+alert(getFractionalNumber(1, 2, 2));
