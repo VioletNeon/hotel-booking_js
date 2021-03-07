@@ -1,1 +1,1 @@
-import './create-some-description-ad.js';
+import './render-card.js';

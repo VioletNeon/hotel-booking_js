@@ -1,6 +1,4 @@
-import { getRandom } from './get-random.js';
-import { getRandomArray } from './get-random.js';
-import { getRandomElements } from './get-random.js';
+import { getRandom, getRandomArray, getRandomElements } from './utils.js';
 
 const TITLES = ['куплю', 'сниму', 'обменяю', 'продам', 'отдам', 'подарю', 'заберу', 'сдам', 'арендую', 'приму'];
 const TYPES = ['palace', 'flat', 'house', 'bungalow'];
@@ -54,4 +52,4 @@ const createSomeDescriptionAd = function () {
 
 const someDescriptionAd = new Array(SOME_AD_COUNT).fill(null).map(function() {return createSomeDescriptionAd()});
 
-alert(someDescriptionAd);
+export { someDescriptionAd };

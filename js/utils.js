@@ -7,13 +7,11 @@ const getRandom = function (from, to, pointer = 0) {
 }
 
 const getRandomArray = function (array) {
-  return array.sort(function() {return Math.random() - 0.5}).slice(0, getRandom(0, array.length - 1))
+  return array.sort(function() {return Math.random() - 0.5}).slice(0, getRandom(0, array.length))
 }
 
 const getRandomElements = function (elements) {
   return elements[getRandom(0, elements.length - 1)]
 }
 
-export { getRandom };
-export { getRandomArray };
-export { getRandomElements };
+export { getRandom, getRandomArray, getRandomElements };
