@@ -3,33 +3,33 @@ const boxAdFormElements = boxAdForm.children;
 const boxMapFilters = document.querySelector('.map__filters');
 const boxMapFiltersElements = boxMapFilters.children;
 
-const getDisabledElements = function (elements) {
+const disableElements = function (elements) {
   [...elements].forEach((element) => {
     element.setAttribute('disabled', 'disabled');
   });
 };
 
-const getDisabledAllFormBoxes = function () {
+const disableAllFormBoxes = function () {
   boxAdForm.classList.add('ad-form--disabled');
   boxMapFilters.classList.add('ad-form--disabled');
-  getDisabledElements(boxAdFormElements);
-  getDisabledElements(boxMapFiltersElements);
+  disableElements(boxAdFormElements);
+  disableElements(boxMapFiltersElements);
 };
 
-const getAbleElements = function (elements) {
+const ableElements = function (elements) {
   [...elements].forEach((element) => {
     element.removeAttribute('disabled');
   });
 }
 
-const getAbleAdFormBox = function () {
+const ableAdFormBox = function () {
   boxAdForm.classList.remove('ad-form--disabled');
-  getAbleElements(boxAdFormElements);
+  ableElements(boxAdFormElements);
 };
 
-const getAbleMapFormBox = function () {
+const ableMapFormBox = function () {
   boxMapFilters.classList.remove('ad-form--disabled');
-  getAbleElements(boxMapFiltersElements);
+  ableElements(boxMapFiltersElements);
 };
 
-export { getDisabledAllFormBoxes, getAbleAdFormBox, getAbleMapFormBox };
+export { disableAllFormBoxes, ableAdFormBox, ableMapFormBox };

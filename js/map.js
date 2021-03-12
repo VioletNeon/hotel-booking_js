@@ -1,21 +1,30 @@
 /* global L:readonly */
 
-import { getDisabledAllFormBoxes, getAbleAdFormBox, getAbleMapFormBox } from './render-ability-of-forms.js';
-import { descriptionsForRender, renderPopups } from './render-card.js';
+import { disableAllFormBoxes, ableAdFormBox, ableMapFormBox } from './render-ability-of-forms.js';
+import { someDescriptionAd } from './data.js';
+import { getNewTemplateCard } from './getNewTemplateCard.js';
+
+const LATITUDE_VALUE = 35.66065;
+const LONGITUDE_VALUE = 139.78310;
+const WIDTH_MAIN_ICON = 52;
+const HEIGHT_MAIN_ICON = 52;
+const FLOATING_POINT = 5;
+const WIDTH_USUAL_ICON = 52;
+const HEIGHT_USUAL_ICON = 52;
 
 // Input for define address coordinates
 const inputAddress = document.querySelector('#address');
 
 // Render disabled form before map loading
-getDisabledAllFormBoxes();
+disableAllFormBoxes();
 
 // Create box-map and get able ad-form
 const map = L.map('map-canvas')
   .on('load',
-    getAbleAdFormBox)
+    ableAdFormBox)
   .setView({
-    lat: 35.66065,
-    lng: 139.78310,
+    lat: LATITUDE_VALUE,
+    lng: LONGITUDE_VALUE,
   }, 12);
 
 // Add map layer to box-map
@@ -29,15 +38,15 @@ L.tileLayer(
 // Create main icon
 const mainIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [WIDTH_MAIN_ICON, HEIGHT_MAIN_ICON],
+  iconAnchor: [WIDTH_MAIN_ICON/2, HEIGHT_MAIN_ICON],
 });
 
 // Add marker attributes
 const marker = L.marker(
   {
-    lat: 35.66065,
-    lng: 139.78310,
+    lat: LATITUDE_VALUE,
+    lng: LONGITUDE_VALUE,
   },
   {
     draggable: true,
@@ -49,8 +58,8 @@ marker.addTo(map);
 
 // Get cut coordinates of main icon
 const getCoordinatesMainIcon = function (target) {
-  const coordinateMainIconX = target.getLatLng().lat.toFixed(5);
-  const coordinateMainIconY = target.getLatLng().lng.toFixed(5);
+  const coordinateMainIconX = target.getLatLng().lat.toFixed(FLOATING_POINT);
+  const coordinateMainIconY = target.getLatLng().lng.toFixed(FLOATING_POINT);
   return `${coordinateMainIconX}, ${coordinateMainIconY}`;
 };
 
@@ -58,21 +67,20 @@ const getCoordinatesMainIcon = function (target) {
 inputAddress.value = getCoordinatesMainIcon(marker);
 
 // Redefine current coordinates for rendering through address input
-marker.on('moveend', (evt) => {
+marker.on('move', (evt) => {
   const newCoordinatesMainIcon = evt.target;
   inputAddress.value = getCoordinatesMainIcon(newCoordinatesMainIcon);
 });
 
 // Render usual makers with popups
-const renderUsualMarkers = function (points, popups) {
-  for (let i = 0; i < points.length; i++) {
-    const lat = points[i].location.x;
-    const lng = points[i].location.y;
-    const popup = popups[i];
+const renderUsualMarkers = function (points) {
+  points.forEach((point) => {
+    const lat = point.location.x;
+    const lng = point.location.y;
     const usualIcon = L.icon({
       iconUrl: './img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconSize: [WIDTH_USUAL_ICON, HEIGHT_USUAL_ICON],
+      iconAnchor: [WIDTH_USUAL_ICON/2, HEIGHT_USUAL_ICON],
     });
 
     const usualMarker = L.marker(
@@ -88,14 +96,13 @@ const renderUsualMarkers = function (points, popups) {
     usualMarker
       .addTo(map)
       .bindPopup(
-        popup,
+        getNewTemplateCard(point),
         {
           keepInView: true,
         },
       );
-  }
-  getAbleMapFormBox();
+  })
+  ableMapFormBox();
 };
 
-// Get rendered usual markers with popups
-renderUsualMarkers(descriptionsForRender, renderPopups(descriptionsForRender));
+renderUsualMarkers(someDescriptionAd);
