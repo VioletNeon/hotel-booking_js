@@ -6,6 +6,12 @@ const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
 const selectRoom = formNotice.querySelector('#room_number');
 const selectGuest = formNotice.querySelector('#capacity');
+const RoomsMap = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
+};
 
 const changePrice = function () {
   inputPrice.min = buildingPrices[selectTypeBuilding.value];
@@ -27,12 +33,10 @@ timeIn.addEventListener('change', changeTimeOut(timeIn, timeOut));
 timeOut.addEventListener('change', changeTimeOut(timeOut, timeIn));
 
 const checkMatch = function () {
-  if (+selectRoom.value === 100 && +selectGuest.value !== 0) {
-    selectGuest.setCustomValidity('Только не для гостей');
-  } else if (+selectGuest.value === 0 && +selectRoom.value !== 100) {
-    selectGuest.setCustomValidity('Только для гостей');
-  } else if (+selectRoom.value !== 100 && +selectRoom.value < +selectGuest.value) {
-    selectGuest.setCustomValidity(`Укажите не более ${selectRoom.value} гостей`);
+  const room = +selectRoom.value;
+  const guest = +selectGuest.value;
+  if (!RoomsMap[room].includes(guest)) {
+    selectGuest.setCustomValidity('Выберите другое количество гостей');
   } else {
     selectGuest.setCustomValidity('');
   }

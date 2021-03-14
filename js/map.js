@@ -2,7 +2,7 @@
 
 import { disableAllFormBoxes, ableAdFormBox, ableMapFormBox } from './render-ability-of-forms.js';
 import { someDescriptionAd } from './data.js';
-import { getNewTemplateCard } from './getNewTemplateCard.js';
+import { getNewTemplateCard } from './get-new-template-card.js';
 
 const LATITUDE_VALUE = 35.66065;
 const LONGITUDE_VALUE = 139.78310;
