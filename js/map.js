@@ -58,13 +58,13 @@ const marker = L.marker(
 marker.addTo(map);
 
 // Set default coordinates of main icon
-const setDefaultCoordinatesOfMainMarker = function () {
+const setDefaultCoordinatesOfMainMarker = () => {
   const latLng = L.latLng(LATITUDE_VALUE, LONGITUDE_VALUE);
   marker.setLatLng(latLng);
 };
 
 // Get cut coordinates of main icon
-const getCoordinatesMainIcon = function (target) {
+const getCoordinatesMainIcon = (target) => {
   const coordinateMainIconX = target.getLatLng().lat.toFixed(FLOATING_POINT);
   const coordinateMainIconY = target.getLatLng().lng.toFixed(FLOATING_POINT);
   return `${coordinateMainIconX}, ${coordinateMainIconY}`;
@@ -79,8 +79,8 @@ marker.on('move', (evt) => {
   inputAddress.value = getCoordinatesMainIcon(newCoordinatesMainIcon);
 });
 
-// Render usual makers with popups
-const renderUsualMarkers = function (points) {
+// Render usual markers with popups
+const renderUsualMarkers = (points) => {
   points.forEach((point) => {
     const lat = point.location.lat;
     const lng = point.location.lng;

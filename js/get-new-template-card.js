@@ -1,6 +1,6 @@
 const offerBuildings = {flat: 'Квартира', bungalow: 'Бунгало', house: 'Дом', palace: 'Дворец'};
 
-const getNewTemplateCard = function ({author, offer}) {
+const getNewTemplateCard = ({author, offer}) => {
 
   // Get template
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');

@@ -13,14 +13,14 @@ const RoomsMap = {
   100: [0],
 };
 
-const changePrice = function () {
+const changePrice = () => {
   inputPrice.min = buildingPrices[selectTypeBuilding.value];
   inputPrice.placeholder = inputPrice.min;
   inputPrice.value = '';
 };
 
-const changeTimeOut = function (inTarget, outTarget) {
-  return function () {
+const changeTimeOut = (inTarget, outTarget) => {
+  return () => {
     let n = inTarget.options.selectedIndex;
     outTarget.options[n].selected = inTarget.options[n].selected;
   }
@@ -32,7 +32,7 @@ selectTypeBuilding.addEventListener('change', changePrice);
 timeIn.addEventListener('change', changeTimeOut(timeIn, timeOut));
 timeOut.addEventListener('change', changeTimeOut(timeOut, timeIn));
 
-const checkMatch = function () {
+const checkMatch = () => {
   const room = +selectRoom.value;
   const guest = +selectGuest.value;
   if (!RoomsMap[room].includes(guest)) {
