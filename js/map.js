@@ -1,8 +1,9 @@
 /* global L:readonly */
 
 import { disableAllFormBoxes, ableAdFormBox, ableMapFormBox } from './render-ability-of-forms.js';
-import { someDescriptionAd } from './data.js';
-import { getNewTemplateCard } from './getNewTemplateCard.js';
+import { getNewTemplateCard } from './get-new-template-card.js';
+import { getData } from './server-request-api.js';
+import { showError } from './utils.js';
 
 const LATITUDE_VALUE = 35.66065;
 const LONGITUDE_VALUE = 139.78310;
@@ -56,6 +57,12 @@ const marker = L.marker(
 
 marker.addTo(map);
 
+// Set default coordinates of main icon
+const setDefaultCoordinatesOfMainMarker = function () {
+  const latLng = L.latLng(LATITUDE_VALUE, LONGITUDE_VALUE);
+  marker.setLatLng(latLng);
+};
+
 // Get cut coordinates of main icon
 const getCoordinatesMainIcon = function (target) {
   const coordinateMainIconX = target.getLatLng().lat.toFixed(FLOATING_POINT);
@@ -75,8 +82,8 @@ marker.on('move', (evt) => {
 // Render usual makers with popups
 const renderUsualMarkers = function (points) {
   points.forEach((point) => {
-    const lat = point.location.x;
-    const lng = point.location.y;
+    const lat = point.location.lat;
+    const lng = point.location.lng;
     const usualIcon = L.icon({
       iconUrl: './img/pin.svg',
       iconSize: [WIDTH_USUAL_ICON, HEIGHT_USUAL_ICON],
@@ -105,4 +112,7 @@ const renderUsualMarkers = function (points) {
   ableMapFormBox();
 };
 
-renderUsualMarkers(someDescriptionAd);
+// Load cards of usual markers from server
+getData(renderUsualMarkers, showError);
+
+export { renderUsualMarkers, setDefaultCoordinatesOfMainMarker };
