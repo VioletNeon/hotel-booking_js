@@ -3,7 +3,7 @@
 import { disableAllFormBoxes, ableAdFormBox, ableMapFormBox } from './render-ability-of-forms.js';
 import { getNewTemplateCard } from './get-new-template-card.js';
 import { getData } from './server-request-api.js';
-import { showError } from './utils.js';
+import { showError, debounce } from './utils.js';
 import { onMapFiltersChange, filterCards } from './card-filter.js';
 import { onResetButtonClick } from './send-form.js';
 
@@ -15,6 +15,7 @@ const FLOATING_POINT = 5;
 const WIDTH_USUAL_ICON = 52;
 const HEIGHT_USUAL_ICON = 52;
 const SIMILAR_CARDS_COUNT = 10;
+const RERENDER_DELAY = 500;
 
 // Input for define address coordinates
 const inputAddress = document.querySelector('#address');
@@ -131,7 +132,7 @@ const renderUsualMarkers = (points) => {
 // Load cards of usual markers from server
 getData((cards) => {
   renderUsualMarkers(cards);
-  onMapFiltersChange(() => renderUsualMarkers(cards));
+  onMapFiltersChange(debounce(() => renderUsualMarkers(cards), RERENDER_DELAY));
   onResetButtonClick(cards);
 }, showError);
 

@@ -31,4 +31,12 @@ const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
-export { getRandom, getRandomArray, getRandomElements, showError, isEscEvent };
+const debounce = (cb, timeout) => {
+  let timerId
+  return () => {
+    clearTimeout(timerId);
+    timerId = setTimeout(cb, timeout);
+  };
+};
+
+export { getRandom, getRandomArray, getRandomElements, showError, isEscEvent, debounce };
