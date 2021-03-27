@@ -6,6 +6,8 @@ const mainContainer = document.querySelector('main');
 const addForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const inputPrice = addForm.querySelector('#price');
+const previewField = document.querySelector('.ad-form-header__preview img');
+const previewAvatarField = document.querySelector('.ad-form__photo');
 
 const DEFAULT_BUILDING_PRICE = '1000';
 
@@ -37,6 +39,8 @@ const clearForm = () => {
   mapFilters.reset();
   addForm.reset();
   inputPrice.placeholder = DEFAULT_BUILDING_PRICE;
+  previewField.src = './img/muffin-grey.svg';
+  previewAvatarField.innerHTML = '';
   setDefaultCoordinatesOfMainMarker();
 };
 

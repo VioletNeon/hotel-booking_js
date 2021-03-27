@@ -85,6 +85,16 @@ mainMarker.on('move', (evt) => {
 
 const similarMarkers = [];
 
+const getFilterCards = (points) => {
+  let cardsArray = [];
+  for (let i = 0; i < points.length; i++) {
+    if (filterCards(points[i])) {
+      cardsArray.push(points[i]);
+    } else if (cardsArray.length === SIMILAR_CARDS_COUNT) { break }
+  }
+  return cardsArray
+}
+
 // Render usual markers with popups
 const renderUsualMarkers = (points) => {
 
@@ -92,10 +102,7 @@ const renderUsualMarkers = (points) => {
     map.removeLayer(item);
   });
 
-  points
-    .slice()
-    .filter(filterCards)
-    .slice(0, SIMILAR_CARDS_COUNT)
+  getFilterCards(points)
     .forEach((point) => {
       const lat = point.location.lat;
       const lng = point.location.lng;
