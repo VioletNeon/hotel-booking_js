@@ -3,31 +3,31 @@ const boxAdFormElements = boxAdForm.children;
 const boxMapFilters = document.querySelector('.map__filters');
 const boxMapFiltersElements = boxMapFilters.children;
 
-const disableElements = function (elements) {
+const disableElements = (elements) => {
   [...elements].forEach((element) => {
     element.setAttribute('disabled', 'disabled');
   });
 };
 
-const disableAllFormBoxes = function () {
+const disableAllFormBoxes = () => {
   boxAdForm.classList.add('ad-form--disabled');
   boxMapFilters.classList.add('ad-form--disabled');
   disableElements(boxAdFormElements);
   disableElements(boxMapFiltersElements);
 };
 
-const ableElements = function (elements) {
+const ableElements = (elements) => {
   [...elements].forEach((element) => {
     element.removeAttribute('disabled');
   });
-}
+};
 
-const ableAdFormBox = function () {
+const ableAdFormBox = () => {
   boxAdForm.classList.remove('ad-form--disabled');
   ableElements(boxAdFormElements);
 };
 
-const ableMapFormBox = function () {
+const ableMapFormBox = () => {
   boxMapFilters.classList.remove('ad-form--disabled');
   ableElements(boxMapFiltersElements);
 };
