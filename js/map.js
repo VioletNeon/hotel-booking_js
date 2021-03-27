@@ -4,6 +4,8 @@ import { disableAllFormBoxes, ableAdFormBox, ableMapFormBox } from './render-abi
 import { getNewTemplateCard } from './get-new-template-card.js';
 import { getData } from './server-request-api.js';
 import { showError } from './utils.js';
+import { onMapFiltersChange, filterCards } from './card-filter.js';
+import { onResetButtonClick } from './send-form.js';
 
 const LATITUDE_VALUE = 35.66065;
 const LONGITUDE_VALUE = 139.78310;
@@ -12,6 +14,7 @@ const HEIGHT_MAIN_ICON = 52;
 const FLOATING_POINT = 5;
 const WIDTH_USUAL_ICON = 52;
 const HEIGHT_USUAL_ICON = 52;
+const SIMILAR_CARDS_COUNT = 10;
 
 // Input for define address coordinates
 const inputAddress = document.querySelector('#address');
@@ -44,7 +47,7 @@ const mainIcon = L.icon({
 });
 
 // Add marker attributes
-const marker = L.marker(
+const mainMarker = L.marker(
   {
     lat: LATITUDE_VALUE,
     lng: LONGITUDE_VALUE,
@@ -55,12 +58,12 @@ const marker = L.marker(
   },
 );
 
-marker.addTo(map);
+mainMarker.addTo(map);
 
 // Set default coordinates of main icon
 const setDefaultCoordinatesOfMainMarker = () => {
   const latLng = L.latLng(LATITUDE_VALUE, LONGITUDE_VALUE);
-  marker.setLatLng(latLng);
+  mainMarker.setLatLng(latLng);
 };
 
 // Get cut coordinates of main icon
@@ -71,48 +74,65 @@ const getCoordinatesMainIcon = (target) => {
 };
 
 // Default coordinates of main icon
-inputAddress.value = getCoordinatesMainIcon(marker);
+inputAddress.value = getCoordinatesMainIcon(mainMarker);
 
 // Redefine current coordinates for rendering through address input
-marker.on('move', (evt) => {
+mainMarker.on('move', (evt) => {
   const newCoordinatesMainIcon = evt.target;
   inputAddress.value = getCoordinatesMainIcon(newCoordinatesMainIcon);
 });
 
+const similarMarkers = [];
+
 // Render usual markers with popups
 const renderUsualMarkers = (points) => {
-  points.forEach((point) => {
-    const lat = point.location.lat;
-    const lng = point.location.lng;
-    const usualIcon = L.icon({
-      iconUrl: './img/pin.svg',
-      iconSize: [WIDTH_USUAL_ICON, HEIGHT_USUAL_ICON],
-      iconAnchor: [WIDTH_USUAL_ICON/2, HEIGHT_USUAL_ICON],
-    });
 
-    const usualMarker = L.marker(
-      {
-        lat,
-        lng,
-      },
-      {
-        usualIcon,
-      },
-    );
+  similarMarkers.forEach((item) => {
+    map.removeLayer(item);
+  });
 
-    usualMarker
-      .addTo(map)
-      .bindPopup(
-        getNewTemplateCard(point),
+  points
+    .slice()
+    .filter(filterCards)
+    .slice(0, SIMILAR_CARDS_COUNT)
+    .forEach((point) => {
+      const lat = point.location.lat;
+      const lng = point.location.lng;
+      const usualIcon = L.icon({
+        iconUrl: './img/pin.svg',
+        iconSize: [WIDTH_USUAL_ICON, HEIGHT_USUAL_ICON],
+        iconAnchor: [WIDTH_USUAL_ICON/2, HEIGHT_USUAL_ICON],
+      });
+
+      const usualMarker = L.marker(
         {
-          keepInView: true,
+          lat,
+          lng,
+        },
+        {
+          usualIcon,
         },
       );
-  })
+
+      similarMarkers.push(usualMarker);
+
+      usualMarker
+        .addTo(map)
+        .bindPopup(
+          getNewTemplateCard(point),
+          {
+            keepInView: true,
+          },
+        );
+    })
   ableMapFormBox();
 };
 
 // Load cards of usual markers from server
-getData(renderUsualMarkers, showError);
+getData((cards) => {
+  renderUsualMarkers(cards);
+  onMapFiltersChange(() => renderUsualMarkers(cards));
+  onResetButtonClick(cards);
+}, showError);
 
 export { renderUsualMarkers, setDefaultCoordinatesOfMainMarker };

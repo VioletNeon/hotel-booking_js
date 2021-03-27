@@ -1,4 +1,4 @@
-import { setDefaultCoordinatesOfMainMarker } from './map.js';
+import { setDefaultCoordinatesOfMainMarker, renderUsualMarkers } from './map.js';
 import { isEscEvent } from './utils.js';
 import { sendData } from './server-request-api.js';
 
@@ -70,11 +70,12 @@ const checkClickForRemoveMessage = (evt) => {
 };
 
 // Set click listener on reset button forms
-const onResetButtonClick = () => {
+const onResetButtonClick = (cards) => {
   const resetButton = document.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     clearForm();
+    renderUsualMarkers(cards);
   });
 };
 
