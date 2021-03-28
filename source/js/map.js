@@ -93,7 +93,7 @@ const getFilterCards = (points) => {
     } else if (cardsArray.length === SIMILAR_CARDS_COUNT) { break }
   }
   return cardsArray
-}
+};
 
 // Render usual markers with popups
 const renderUsualMarkers = (points) => {
@@ -137,10 +137,15 @@ const renderUsualMarkers = (points) => {
 };
 
 // Load cards of usual markers from server
-getData((cards) => {
-  renderUsualMarkers(cards);
-  onMapFiltersChange(debounce(() => renderUsualMarkers(cards), RERENDER_DELAY));
-  onResetButtonClick(cards);
-}, showError);
 
-export { renderUsualMarkers, setDefaultCoordinatesOfMainMarker };
+const loadCards = () => {
+  getData((cards) => {
+    renderUsualMarkers(cards);
+    onMapFiltersChange(debounce(() => renderUsualMarkers(cards), RERENDER_DELAY));
+    onResetButtonClick(cards);
+  }, showError);
+};
+
+loadCards();
+
+export { renderUsualMarkers, setDefaultCoordinatesOfMainMarker, loadCards };
