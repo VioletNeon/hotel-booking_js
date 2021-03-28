@@ -3,17 +3,19 @@ import { isEscEvent } from './utils.js';
 import { sendData } from './server-request-api.js';
 
 const mainContainer = document.querySelector('main');
-const addForm = document.querySelector('.ad-form');
+const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
-const inputPrice = addForm.querySelector('#price');
+const inputPrice = adForm.querySelector('#price');
 const previewField = document.querySelector('.ad-form-header__preview img');
 const previewAvatarField = document.querySelector('.ad-form__photo');
+const resetButton = document.querySelector('.ad-form__reset');
 
 const DEFAULT_BUILDING_PRICE = '1000';
+const MESSAGE_INDEX_LAYER = 'z-index: 1000';
 
 // Set submit listener and call request
-const onAddFormSubmit = () => {
-  addForm.addEventListener('submit', (evt) => {
+const onAdFormSubmit = () => {
+  adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(() => { clearForm();
       loadCards()
@@ -24,6 +26,7 @@ const onAddFormSubmit = () => {
 // Show message and set keyboard and click listeners for close message
 const showMessage = (template) => {
   const alertMessage = template.cloneNode(true);
+  alertMessage.style.cssText = MESSAGE_INDEX_LAYER;
   mainContainer.appendChild(alertMessage);
   onAlertMessageKeydownClick();
 };
@@ -39,7 +42,7 @@ const onPopupEscKeydown = (evt) => {
 // Clear form ane set default value
 const clearForm = () => {
   mapFilters.reset();
-  addForm.reset();
+  adForm.reset();
   inputPrice.placeholder = DEFAULT_BUILDING_PRICE;
   previewField.src = './img/muffin-grey.svg';
   previewAvatarField.innerHTML = '';
@@ -77,7 +80,6 @@ const checkClickForRemoveMessage = (evt) => {
 
 // Set click listener on reset button forms
 const onResetButtonClick = (cards) => {
-  const resetButton = document.querySelector('.ad-form__reset');
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     clearForm();
@@ -85,4 +87,4 @@ const onResetButtonClick = (cards) => {
   });
 };
 
-export { onAddFormSubmit, showMessage, onResetButtonClick };
+export { onAdFormSubmit, showMessage, onResetButtonClick };

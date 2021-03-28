@@ -7,11 +7,14 @@ const housingGuests = mapFiltersForm.querySelector('#housing-guests');
 const mapFeatures = mapFeaturesBox.querySelectorAll('.map__checkbox');
 const mapFilters = [housingType, housingPrice, housingRooms, housingGuests, ...mapFeatures];
 
+const MIDDLE_PRICE_FROM = 10000;
+const MIDDLE_PRICE_TO = 50000;
+
 
 const filterCards = ({offer}) => {
 
   const selectedMapFilters = [housingType.value, housingRooms.value, housingGuests.value, housingPrice.value];
-  const checkedFeatures = Array.from(mapFeatures).filter((item) => { if (item.checked) { return true }});
+  const checkedFeatures = Array.from(mapFeatures).filter((item) => { return item.checked });
 
   let rank = 0;
   let matchRank = 0;
@@ -22,9 +25,9 @@ const filterCards = ({offer}) => {
   selectedMapFilters.forEach((item) => { if (item !== 'any') { matchRank += 1 }});
 
   const PriceMap = {
-    middle: (10000 < offer.price && offer.price < 50000),
-    low: offer.price <= 10000,
-    high: offer.price >= 50000,
+    middle: (MIDDLE_PRICE_FROM < offer.price && offer.price < MIDDLE_PRICE_TO),
+    low: offer.price <= MIDDLE_PRICE_FROM,
+    high: offer.price >= MIDDLE_PRICE_TO,
     any: false,
   };
 

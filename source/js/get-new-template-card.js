@@ -13,16 +13,23 @@ const getNewTemplateCard = ({author, offer}) => {
   cardOfAdvertisement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardOfAdvertisement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   cardOfAdvertisement.querySelector('.popup__type').textContent = offerBuildings[offer.type];
-  cardOfAdvertisement.querySelector('.popup__description').textContent = offer.description;
+
+  // Define description in template
+  const popupDescription = cardOfAdvertisement.querySelector('.popup__description');
+  if (offer.description) {
+    popupDescription.textContent = offer.description;
+  } else { popupDescription.remove() }
 
   // Define features in template
   const popupFeatures = cardOfAdvertisement.querySelector('.popup__features');
   popupFeatures.innerHTML = '';
-  offer.features.forEach((feature) => {
-    const featureElement = document.createElement('li');
-    featureElement.classList.add('popup__feature', `popup__feature--${feature}`);
-    popupFeatures.appendChild(featureElement);
-  });
+  if (offer.features.length) {
+    offer.features.forEach((feature) => {
+      const featureElement = document.createElement('li');
+      featureElement.classList.add('popup__feature', `popup__feature--${feature}`);
+      popupFeatures.appendChild(featureElement);
+    });
+  } else { popupFeatures.remove() }
 
   // Insert photos in template
   const photosBox = cardOfAdvertisement.querySelector('.popup__photos');
@@ -34,7 +41,7 @@ const getNewTemplateCard = ({author, offer}) => {
       similarPhotosBoxImage.src = photo;
       photosBox.appendChild(similarPhotosBoxImage);
     });
-  }
+  } else { photosBox.remove() }
 
   // Define avatar
   cardOfAdvertisement.querySelector('.popup__avatar').src = author.avatar;

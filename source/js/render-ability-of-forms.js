@@ -5,7 +5,7 @@ const boxMapFiltersElements = boxMapFilters.children;
 
 const disableElements = (elements) => {
   [...elements].forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
+    element.disabled = true;
   });
 };
 
@@ -18,7 +18,7 @@ const disableAllFormBoxes = () => {
 
 const ableElements = (elements) => {
   [...elements].forEach((element) => {
-    element.removeAttribute('disabled');
+    element.disabled = false;
   });
 };
 
