@@ -1,4 +1,4 @@
-import { setDefaultCoordinatesOfMainMarker, renderUsualMarkers } from './map.js';
+import { setDefaultCoordinatesOfMainMarker, renderUsualMarkers, loadCards } from './map.js';
 import { isEscEvent } from './utils.js';
 import { sendData } from './server-request-api.js';
 
@@ -15,7 +15,9 @@ const DEFAULT_BUILDING_PRICE = '1000';
 const onAddFormSubmit = () => {
   addForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    sendData(clearForm, showMessage, new FormData(evt.target));
+    sendData(() => { clearForm();
+      loadCards()
+    }, showMessage, new FormData(evt.target));
   });
 };
 
