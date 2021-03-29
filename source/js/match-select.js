@@ -13,26 +13,26 @@ const RoomsMap = {
   100: [0],
 };
 
-const changePrice = () => {
+const onInputPriceChange = () => {
   inputPrice.min = buildingPrices[selectTypeBuilding.value];
   inputPrice.placeholder = inputPrice.min;
   inputPrice.value = '';
 };
 
-const changeTimeOut = (inTarget, outTarget) => {
+const onTimeInTimeOutChange = (inTarget, outTarget) => {
   return () => {
     let n = inTarget.options.selectedIndex;
     outTarget.options[n].selected = inTarget.options[n].selected;
   }
 };
 
-changePrice();
+onInputPriceChange();
 
-selectTypeBuilding.addEventListener('change', changePrice);
-timeIn.addEventListener('change', changeTimeOut(timeIn, timeOut));
-timeOut.addEventListener('change', changeTimeOut(timeOut, timeIn));
+selectTypeBuilding.addEventListener('change', onInputPriceChange);
+timeIn.addEventListener('change', onTimeInTimeOutChange(timeIn, timeOut));
+timeOut.addEventListener('change', onTimeInTimeOutChange(timeOut, timeIn));
 
-const checkMatch = () => {
+const onSelectRoomGuestCheck = () => {
   const room = +selectRoom.value;
   const guest = +selectGuest.value;
   if (!RoomsMap[room].includes(guest)) {
@@ -43,5 +43,5 @@ const checkMatch = () => {
   selectGuest.reportValidity();
 };
 
-selectRoom.addEventListener('change', checkMatch);
-selectGuest.addEventListener('change', checkMatch);
+selectRoom.addEventListener('change', onSelectRoomGuestCheck);
+selectGuest.addEventListener('change', onSelectRoomGuestCheck);

@@ -28,14 +28,14 @@ const showMessage = (template) => {
   const alertMessage = template.cloneNode(true);
   alertMessage.style.cssText = MESSAGE_INDEX_LAYER;
   mainContainer.appendChild(alertMessage);
-  onAlertMessageKeydownClick();
+  onBodyMessageKeydownClick();
 };
 
 // Check keyboard event and close message
 const onPopupEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    removeOnAlertMessageKeydownClick();
+    onBodyMessageRemoveKeydownClick();
   }
 };
 
@@ -50,17 +50,17 @@ const clearForm = () => {
 };
 
 // Set listeners on alert message block
-const onAlertMessageKeydownClick = () => {
+const onBodyMessageKeydownClick = () => {
   const errorButton = document.querySelector('.error__button');
   if (errorButton) {
-    errorButton.addEventListener('click', removeOnAlertMessageKeydownClick);
+    errorButton.addEventListener('click', onBodyMessageRemoveKeydownClick);
   }
   document.addEventListener('keydown', onPopupEscKeydown);
-  document.body.addEventListener('click', checkClickForRemoveMessage);
+  document.body.addEventListener('click', onBodyMessageClick);
 };
 
 // Close alert message and remove listeners
-const removeOnAlertMessageKeydownClick = () => {
+const onBodyMessageRemoveKeydownClick = () => {
   const boxMessageError = document.querySelector('.error');
   const boxMessageSuccess = document.querySelector('.success');
   if (boxMessageError) {
@@ -69,12 +69,12 @@ const removeOnAlertMessageKeydownClick = () => {
     boxMessageSuccess.remove();
   }
   document.removeEventListener('keydown', onPopupEscKeydown);
-  document.body.removeEventListener('click', checkClickForRemoveMessage);
+  document.body.removeEventListener('click', onBodyMessageClick);
 };
 
-const checkClickForRemoveMessage = (evt) => {
+const onBodyMessageClick = (evt) => {
   if (evt.target.className !== 'error__message' || evt.target.className !== 'success__message') {
-    removeOnAlertMessageKeydownClick();
+    onBodyMessageRemoveKeydownClick();
   }
 };
 

@@ -16,20 +16,20 @@ const disableAllFormBoxes = () => {
   disableElements(boxMapFiltersElements);
 };
 
-const ableElements = (elements) => {
+const makeAbleElements = (elements) => {
   [...elements].forEach((element) => {
     element.disabled = false;
   });
 };
 
-const ableAdFormBox = () => {
+const makeAbleAdFormBox = () => {
   boxAdForm.classList.remove('ad-form--disabled');
-  ableElements(boxAdFormElements);
+  makeAbleElements(boxAdFormElements);
 };
 
-const ableMapFormBox = () => {
+const makeAbleMapFormBox = () => {
   boxMapFilters.classList.remove('ad-form--disabled');
-  ableElements(boxMapFiltersElements);
+  makeAbleElements(boxMapFiltersElements);
 };
 
-export { disableAllFormBoxes, ableAdFormBox, ableMapFormBox };
+export { disableAllFormBoxes, makeAbleAdFormBox, makeAbleMapFormBox };
