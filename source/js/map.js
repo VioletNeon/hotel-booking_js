@@ -1,6 +1,6 @@
 /* global L:readonly */
 
-import { disableAllFormBoxes, makeAbleAdFormBox, makeAbleMapFormBox } from './render-ability-of-forms.js';
+import { disableAllFormBoxes, enableAdFormBox, enableMapFormBox } from './render-ability-of-forms.js';
 import { getNewTemplateCard } from './get-new-template-card.js';
 import { getData } from './server-request-api.js';
 import { showError, debounce } from './utils.js';
@@ -26,7 +26,7 @@ disableAllFormBoxes();
 // Create box-map and get able ad-form
 const map = L.map('map-canvas')
   .on('load',
-    makeAbleAdFormBox)
+    enableAdFormBox)
   .setView({
     lat: LATITUDE_VALUE,
     lng: LONGITUDE_VALUE,
@@ -133,7 +133,7 @@ const renderUsualMarkers = (points) => {
           },
         );
     })
-  makeAbleMapFormBox();
+  enableMapFormBox();
 };
 
 // Load cards of usual markers from server
